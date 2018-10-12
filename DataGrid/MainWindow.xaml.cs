@@ -6,6 +6,9 @@ using System.Windows.Input;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Windows.Data;
+using System.Globalization;
+using System.Windows.Controls;
 
 namespace DataGrid
 {
@@ -14,6 +17,7 @@ namespace DataGrid
     /// </summary>
     public partial class MainWindow : Window
     {
+        System.Windows.Threading.DispatcherTimer timer;
         public List<Seance> listSeance;
         public MainWindow()
         {
@@ -27,7 +31,14 @@ namespace DataGrid
                 //нет соединения
                 listSeance = new List<Seance>();
             }
+            timer = new System.Windows.Threading.DispatcherTimer();
+
+            timer.Tick += new EventHandler(TimerTick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+
             InitializeComponent();
+            ListSeance.ItemsSource = listSeance;
         }
 
         //Загрузка содержимого таблицы
@@ -63,22 +74,51 @@ namespace DataGrid
             listSeance = JsonConvert.DeserializeObject<IEnumerable<Seance>>(responseText).ToList();//не работает
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button but = sender as Button;
+            if (but == null)
+            {
+                return;
+            };
+         
+            int seanceId = (int)but.Tag;
+            Seance seance = listSeance.Find(x => x.Id == seanceId);
+         //   MessageBox.Show(seance.Id.ToString() + "  " + seance.Name + " " + seance.Start);
+
+            CreateOrderWindow window = new CreateOrderWindow
+            {
+                CurrentSeance = seance
+            };
+            window.Show();
+            window.ShowCurrentSeance();
+        }
+        private void TimerTick(object sender, EventArgs e)
+        {
+            try
+            {
+                RequestToServer();
+            }
+            catch (Exception)
+            {
+               
+                listSeance = new List<Seance>();
+            }
+            
+            ListSeance.ItemsSource = listSeance;
+        }
     }
         public class Seance
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public DateTime Start { get; set; }
+            public string Start { get; set; }
 
-             public Seance(int id, string name, DateTime start)
-             {
-                 this.Id = id; 
-                 this.Name = name;
-                 this.Start = start;      
-            }
+            
 
         }
 
-
     
+
 }
