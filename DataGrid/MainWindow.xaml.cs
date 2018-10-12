@@ -41,58 +41,58 @@ namespace DataGrid
             ListSeance.ItemsSource = listSeance;
         }
 
-        //Загрузка содержимого таблицы
-        private void grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            grid.ItemsSource = listSeance;
-        }
-
-        //Получаем данные из таблицы
-        private void grid_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Seance path = grid.SelectedItem as Seance;
-            MessageBox.Show(" ID: " + path.Id + "\n Название фильма: " + path.Name + "\n Начало: " + path.Start
-                );
-        }
+        
 
         public void RequestToServer()
         {
-            string responseText = "";
+            try { 
+                string responseText = "";
             
-            using (var handler = new HttpClientHandler())
-            {
-                using (var client = new HttpClient(handler))
+                using (var handler = new HttpClientHandler())
                 {
-                    client.DefaultRequestHeaders
-                    .Accept
-                    .Add(new MediaTypeWithQualityHeaderValue("text/xml"));//не пашет???
-                    var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44333/api/seance/");
-                    responseText = client.SendAsync(request).Result.Content.ReadAsStringAsync().Result;
+                    using (var client = new HttpClient(handler))
+                    {
+                        client.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue("text/xml"));//не пашет???
+                        var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44333/api/seance/");
+                        responseText = client.SendAsync(request).Result.Content.ReadAsStringAsync().Result;
+                    }
+
                 }
-
+                listSeance = JsonConvert.DeserializeObject<IEnumerable<Seance>>(responseText).ToList();//не работает
             }
-            listSeance = JsonConvert.DeserializeObject<IEnumerable<Seance>>(responseText).ToList();//не работает
-
-        }
+            catch (Exception)
+            {
+                MessageBox.Show("Ошибка при запросе на сервер списка сеансов");
+            }
+}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button but = sender as Button;
-            if (but == null)
+            try
             {
-                return;
-            };
-         
-            int seanceId = (int)but.Tag;
-            Seance seance = listSeance.Find(x => x.Id == seanceId);
-         //   MessageBox.Show(seance.Id.ToString() + "  " + seance.Name + " " + seance.Start);
+                Button but = sender as Button;
+                if (but == null)
+                {
+                    return;
+                };
 
-            CreateOrderWindow window = new CreateOrderWindow
+                int seanceId = (int)but.Tag;
+                Seance seance = listSeance.Find(x => x.Id == seanceId);
+
+
+                CreateOrderWindow window = new CreateOrderWindow
+                {
+                    CurrentSeance = seance
+                };
+                window.Show();
+                window.ShowCurrentSeance();
+            }
+            catch (Exception)
             {
-                CurrentSeance = seance
-            };
-            window.Show();
-            window.ShowCurrentSeance();
+                MessageBox.Show("Ошибка в обработчике кнопки");
+            }
         }
         private void TimerTick(object sender, EventArgs e)
         {

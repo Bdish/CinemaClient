@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataGrid"
         mc:Ignorable="d"
-        Title="CreateOrderWindow" Height="450" Width="800">
+        Title="CreateOrderWindow" Height="275" Width="509">
     <Grid>
-        <Grid>
+        
+        <Grid Margin="10,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"></ColumnDefinition>
                 <ColumnDefinition Width="250"></ColumnDefinition>
@@ -33,19 +34,31 @@
             <Button Width="100" Click="Button_Click" Grid.Column="1"  Grid.Row="3">Оформить заказ</Button>
             
         </Grid>
-
-        <Grid Margin="0,184,0,0">
+       
+       
+            <Grid Margin="10,184,0,0">
+                
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Name="NewOrderId"   Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Name="NewOrderIdSeance"   Grid.Column="1" Grid.Row="0"/>
-            <TextBlock Name="NewOrderCountPlace"   Grid.Column="2" Grid.Row="0"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center">Номер заказа</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Center">Номер сеанса</TextBlock>
+            <TextBlock Grid.Column="2" Grid.Row="0" TextAlignment="Center">Кол-во мест</TextBlock>
+            <TextBlock Grid.Column="3" Grid.Row="0" TextAlignment="Center">Время заказ</TextBlock>
+
+
+            <TextBlock Name="NewOrderId"   Grid.Column="0" Grid.Row="1" />
+            <TextBlock Name="NewOrderIdSeance"   Grid.Column="1" Grid.Row="1"/>
+            <TextBlock Name="NewOrderCountPlace"   Grid.Column="2" Grid.Row="1"/>
+            <TextBlock Name="NewOrderDateTimeTicketSales"   Grid.Column="3" Grid.Row="1"/>
         </Grid>
         
     </Grid>

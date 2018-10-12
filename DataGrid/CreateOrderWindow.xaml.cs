@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-
 using System.Net.Http;
-
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-
 using System.Windows.Input;
 
 
@@ -36,11 +31,11 @@ namespace DataGrid
 
         public void ShowCurrentSeance()
         {
-            // MessageBox.Show(CurrentSeance.Id.ToString() + "  " + CurrentSeance.Name + " " + CurrentSeance.Start);
-            //DisplaySeance=CurrentSeance;
+            
             CurrentSeanceId.Text = CurrentSeance.Id.ToString();
             CurrentSeanceName.Text = CurrentSeance.Name;
             CurrentSeanceStart.Text = CurrentSeance.Start;
+            
         }
 
         
@@ -85,18 +80,26 @@ namespace DataGrid
             }
             using (HttpClient client = new HttpClient())
             {
-                var jsonEmp = JsonConvert.SerializeObject(order);
+                try
+                {
+                    var jsonEmp = JsonConvert.SerializeObject(order);
 
-                var url2 = @"https://localhost:44333/api/order"; //Строка по которой производиться обращение к таблице
-                StringContent stringC = new StringContent(jsonEmp, Encoding.UTF8, "application/json"); //Строка которая будет передаваться web сервису
-                var res = client.PostAsync(url2, stringC).Result; //отправляем 
+                    var url2 = @"https://localhost:44333/api/order"; //Строка по которой производиться обращение к таблице
+                    StringContent stringC = new StringContent(jsonEmp, Encoding.UTF8, "application/json"); //Строка которая будет передаваться web сервису
+                    var res = client.PostAsync(url2, stringC).Result; //отправляем 
 
-                var jsonOrder = JsonConvert.DeserializeObject<Order>(res.Content.ReadAsStringAsync().Result); //Получаем полученый объект в ходе выполнения записи в базу данных
-                order.Id = jsonOrder.Id; //передаем нашему объекту реальный ID из базы данных
+                    var jsonOrder = JsonConvert.DeserializeObject<Order>(res.Content.ReadAsStringAsync().Result); //Получаем полученый объект в ходе выполнения записи в базу данных
+                    order.Id = jsonOrder.Id; //передаем нашему объекту реальный ID из базы данных
 
-                NewOrderId.Text = jsonOrder.Id.ToString();
-                NewOrderIdSeance.Text = jsonOrder.IdSeance.ToString();
-                NewOrderCountPlace.Text = jsonOrder.CountPlace.ToString();
+                    NewOrderId.Text = jsonOrder.Id.ToString();
+                    NewOrderIdSeance.Text = jsonOrder.IdSeance.ToString();
+                    NewOrderCountPlace.Text = jsonOrder.CountPlace.ToString();
+                    NewOrderDateTimeTicketSales.Text = jsonOrder.TicketSales.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка запроса на сервер: Отправка заказа");
+                }
             }
         }
 
@@ -110,5 +113,7 @@ namespace DataGrid
 
         
         public int CountPlace { get; set; }
+
+        public DateTime TicketSales { get; set; }
     }
 }
