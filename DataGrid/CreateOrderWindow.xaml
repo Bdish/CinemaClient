@@ -55,10 +55,10 @@
             <TextBlock Grid.Column="3" Grid.Row="0" TextAlignment="Center">Время заказ</TextBlock>
 
 
-            <TextBlock Name="NewOrderId"   Grid.Column="0" Grid.Row="1" />
-            <TextBlock Name="NewOrderIdSeance"   Grid.Column="1" Grid.Row="1"/>
-            <TextBlock Name="NewOrderCountPlace"   Grid.Column="2" Grid.Row="1"/>
-            <TextBlock Name="NewOrderDateTimeTicketSales"   Grid.Column="3" Grid.Row="1"/>
+            <TextBlock Name="NewOrderId"   Grid.Column="0" Grid.Row="1" TextAlignment="Center"/>
+            <TextBlock Name="NewOrderIdSeance"   Grid.Column="1" Grid.Row="1" TextAlignment="Center"/>
+            <TextBlock Name="NewOrderCountPlace"   Grid.Column="2" Grid.Row="1" TextAlignment="Center"/>
+            <TextBlock Name="NewOrderDateTimeTicketSales"   Grid.Column="3" Grid.Row="1" TextAlignment="Center"/>
         </Grid>
         
     </Grid>

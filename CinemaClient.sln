@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGrid", "DataGrid\DataGrid.csproj", "{965F1115-0823-4922-AF5A-2447CF0BDB98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient", "WpfClient\WpfClient.csproj", "{F65DBC0F-4C24-4F2E-AAA2-CB9E73F8C283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessToWebApi", "AccessToWebApi\AccessToWebApi.csproj", "{7EED25F2-B10C-417C-B208-C7BE2E15DB6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{965F1115-0823-4922-AF5A-2447CF0BDB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{965F1115-0823-4922-AF5A-2447CF0BDB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{965F1115-0823-4922-AF5A-2447CF0BDB98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65DBC0F-4C24-4F2E-AAA2-CB9E73F8C283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65DBC0F-4C24-4F2E-AAA2-CB9E73F8C283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65DBC0F-4C24-4F2E-AAA2-CB9E73F8C283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65DBC0F-4C24-4F2E-AAA2-CB9E73F8C283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EED25F2-B10C-417C-B208-C7BE2E15DB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EED25F2-B10C-417C-B208-C7BE2E15DB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EED25F2-B10C-417C-B208-C7BE2E15DB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EED25F2-B10C-417C-B208-C7BE2E15DB6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
