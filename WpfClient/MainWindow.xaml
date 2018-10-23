@@ -33,14 +33,14 @@
             <TextBlock Text="{Binding Start, UpdateSourceTrigger=PropertyChanged}" Background="AntiqueWhite"/>
         </StackPanel>
 
-        <StackPanel  Margin="450,146,5,189" DataContext="{Binding SelectedSeance}">
+        <StackPanel  Margin="450,146,5,189" >
             <TextBlock Text="Создание заказа"  />
             <TextBlock Text="Кол-во мест" />
             <TextBox Text="{Binding CountPlace, UpdateSourceTrigger=PropertyChanged}" Background="AntiqueWhite"/>
-            <Button Width="100">Оформить заказ</Button>
+            <Button Width="100" Command="{Binding CreateNewOrder}"  CommandParameter="{Binding SelectedSeance}">Оформить заказ</Button>
         </StackPanel>
 
-        <StackPanel  Margin="450,246,5,24" DataContext="{Binding }">
+        <StackPanel  Margin="450,246,5,24" DataContext="{Binding NewOrderFromServer}">
             <TextBlock Text="Оформленный заказ"  />
             <TextBlock Text="Номер" />
             <TextBlock Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" Background="AntiqueWhite"/>

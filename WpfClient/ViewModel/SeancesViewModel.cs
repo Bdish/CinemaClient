@@ -10,35 +10,34 @@ using System.Threading.Tasks;
 using AccessToWebApi.Entities;
 using System.Windows;
 using System.Windows.Threading;
+using WpfClient.Model;
 
 namespace WpfClient.ViewModel
 {
     public class SeancesViewModel : INotifyPropertyChanged
     {
         private DispatcherTimer _timer;
-        private Seance _selectedSeance;
-        private HTTPForSeances _httpClient;
+        private WpfClient.Model.Seance _selectedSeance;
+        private HTTPForSeances _seanceHttpClient;
+        private HTTPForOrder _orderHttpClient;
 
-        public ObservableCollection<Seance> Seances { get; set; }
+        public ObservableCollection<WpfClient.Model.Seance> Seances { get; set; }
 
-        public Seance SelectedSeance
+        public WpfClient.Model.Seance SelectedSeance
         {
             get { return _selectedSeance; }
             set
-            {
-               /* if (!SelectedSeanceIsInSeances())
-                {*/
+            {              
                     _selectedSeance = value;
-                    OnPropertyChanged("SelectedSeance");
-               // }
-                
+                    OnPropertyChanged("SelectedSeance");                               
             }
         }
 
-        public SeancesViewModel(HTTPForSeances httpClient)
+        public SeancesViewModel(HTTPForSeances seanceHttpClient, HTTPForOrder orderHttpClient)
         {
-            Seances = new ObservableCollection<Seance>();
-            _httpClient = httpClient;
+            Seances = new ObservableCollection<WpfClient.Model.Seance>();
+            _seanceHttpClient = seanceHttpClient;
+            _orderHttpClient = orderHttpClient;
 
             _timer = new System.Windows.Threading.DispatcherTimer();
 
@@ -50,7 +49,7 @@ namespace WpfClient.ViewModel
 
         private void TimerTick(object sender, EventArgs e)
         {
-            List< Seance > seances = _httpClient.GetSeances().ToList();
+            List<AccessToWebApi.Entities.Seance > seances = _seanceHttpClient.GetSeances().ToList();
 
             
             /*
@@ -80,7 +79,7 @@ namespace WpfClient.ViewModel
             {
                 Seances.Clear();
                 foreach (var seance in seances)
-                    Seances.Add(seance);
+                    Seances.Add(new Model.Seance() { Id = seance.Id, Name = seance.Name, Start = seance.Start });
             }
         }
 
@@ -109,5 +108,79 @@ namespace WpfClient.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        //-------------------------------------------------------------------------------------------------
+
+        
+        private AccessToWebApi.Entities.Order _newOrder;
+        private WpfClient.Model.Order _newOrderFromServer;
+
+        public WpfClient.Model.Order NewOrderFromServer
+        {
+            get { return _newOrderFromServer; }
+            set
+            {
+                _newOrderFromServer = value;
+                OnPropertyChanged("NewOrderFromServer");
+            }
+        }
+
+
+        private int _countPlace;
+
+        public int CountPlace
+        {
+            get { return _countPlace; }
+            set
+            {
+                _countPlace = value;
+                OnPropertyChanged("CountPlace");
+            }
+        }
+
+        private CommandHandler _createNewOrder;
+        public CommandHandler CreateNewOrder
+        {
+            get
+            {
+                return _createNewOrder ??
+            (_createNewOrder = new CommandHandler(obj =>
+            {
+                WpfClient.Model.Seance selectSeance = obj as WpfClient.Model.Seance;
+                if (selectSeance != null)
+                {
+                    _newOrder = new AccessToWebApi.Entities.Order() { CountPlace = _countPlace, IdSeance = selectSeance.Id };
+                    AccessToWebApi.Entities.Order newSimpleOrderFromServer = GetResponseFromServer();
+                    if (_newOrderFromServer == null)
+                    {
+                        NewOrderFromServer = new Model.Order();
+                    }
+                    NewOrderFromServer.Id = newSimpleOrderFromServer.Id;
+                    NewOrderFromServer.IdSeance = newSimpleOrderFromServer.IdSeance;
+                    NewOrderFromServer.CountPlace = newSimpleOrderFromServer.CountPlace;
+                    NewOrderFromServer.TicketSales = newSimpleOrderFromServer.TicketSales;
+                }
+            },
+            (obj) => 
+                {
+                    bool res1 = CountPlace > 0;
+                    MessageBox.Show(res1.ToString());
+                    return (obj as WpfClient.Model.Seance) != null && res1;
+                }
+            ));
+            }
+
+
+        }
+
+        private AccessToWebApi.Entities.Order GetResponseFromServer()
+        {
+            return _orderHttpClient.PostOrder(_newOrder);
+        }
+
+
+
+
+        
     }
 }

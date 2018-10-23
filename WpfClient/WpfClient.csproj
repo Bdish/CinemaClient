@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\CommandHandler.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="ViewModel\CreateOrder.cs" />
     <Compile Include="ViewModel\SeancesViewModel.cs" />

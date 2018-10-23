@@ -25,8 +25,9 @@ namespace WpfClient
         public MainWindow()
         {
             InitializeComponent();
-            HTTPForSeances httpClient = new HTTPForSeances();
-            DataContext = new SeancesViewModel(httpClient);
+            HTTPForSeances seanceHttpClient = new HTTPForSeances();
+            HTTPForOrder orderHttpClient = new HTTPForOrder();
+            DataContext = new SeancesViewModel(seanceHttpClient, orderHttpClient);
         }
     }
 }
